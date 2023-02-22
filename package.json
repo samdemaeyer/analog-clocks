@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "An application that renders all possible times and redirects you to the correct time when it's time to do so",
   "scripts": {
-    "start": "http-server ./docs -p 3001",
+    "start": "http-server ./docs -p 2001",
     "dev": "concurrently \"npx tsc --watch\" \"yarn start\""
   },
   "devDependencies": {
