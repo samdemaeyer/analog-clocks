@@ -2,10 +2,13 @@ const clocksWrapper = document.querySelector('#clocks-wrapper');
 
 const generateClocks = () => {
   const minutes = Array.from({ length: 60 }, (_, i) => i);
-  const randomizedClockTimes = Array.from({ length: 12 }).reduce<string[]>((acc, curr, i) => {
-    const hour = i + 1;
-    return [...acc, ...minutes.map((min) => `${hour}-${min}`)];
-  }, []);
+  const randomizedClockTimes = Array.from({ length: 12 }).reduce<string[]>(
+    (acc, _, i) => {
+      const hour = i + 1;
+      return [...acc, ...minutes.map((min) => `${hour}-${min}`)];
+    },
+    Array.from({ length: 9 }, () => 'xx-xx'),
+  );
 
   randomizedClockTimes
     .sort(() => Math.random() - 0.5)
@@ -13,7 +16,7 @@ const generateClocks = () => {
       const [hour, min] = time.split('-');
       const clock = document.createElement('div');
       clock.className = 'clock-wrapper';
-      clock.id = `hour-${hour}-minute-${min}`;
+      hour !== 'xx' && (clock.id = `hour-${hour}-minute-${min}`);
       const hourDegrees = (Number(hour) / 12) * 360 + (Number(min) / 60) * 30 + 90;
       const minutesDegrees = Number(min) * 6 + 90;
       clock.innerHTML = `
