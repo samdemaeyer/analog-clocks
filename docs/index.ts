@@ -1,4 +1,15 @@
 const clocksWrapper = document.querySelector('#clocks-wrapper');
+const toggleScrollingBtn = document.querySelector('#toggle-scrolling-btn');
+toggleScrollingBtn?.addEventListener('click', (element) => {
+  const body = document.body;
+  if (body.className.includes('scrollable')) {
+    body.classList.remove('scrollable');
+    (element.target as HTMLElement).innerText = 'Enable scrolling';
+  } else {
+    body.classList.add('scrollable');
+    (element.target as HTMLElement).innerText = 'Disable scrolling';
+  }
+});
 
 const generateClocks = () => {
   const minutes = Array.from({ length: 60 }, (_, i) => i);

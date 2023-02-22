@@ -1,5 +1,17 @@
 "use strict";
 const clocksWrapper = document.querySelector('#clocks-wrapper');
+const toggleScrollingBtn = document.querySelector('#toggle-scrolling-btn');
+toggleScrollingBtn === null || toggleScrollingBtn === void 0 ? void 0 : toggleScrollingBtn.addEventListener('click', (element) => {
+    const body = document.body;
+    if (body.className.includes('scrollable')) {
+        body.classList.remove('scrollable');
+        element.target.innerText = 'Enable scrolling';
+    }
+    else {
+        body.classList.add('scrollable');
+        element.target.innerText = 'Disable scrolling';
+    }
+});
 const generateClocks = () => {
     const minutes = Array.from({ length: 60 }, (_, i) => i);
     const randomizedClockTimes = Array.from({ length: 12 }).reduce((acc, _, i) => {
