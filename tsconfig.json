@@ -2,11 +2,12 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
-    "outDir": "docs",
+    "outDir": "./docs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "strict": true,
     "skipLibCheck": true
-  }
+  },
+  "exclude": []
 }

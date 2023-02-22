@@ -1,18 +1,20 @@
 "use strict";
 const clocksWrapper = document.querySelector('#clocks-wrapper');
 const generateClocks = () => {
-    const minutes = Array.from({ length: 60 }, (_, i) => i)
+    const minutes = Array.from({ length: 60 }, (_, i) => i);
     const randomizedClockTimes = Array.from({ length: 12 }).reduce((acc, curr, i) => {
-        const hour = i + 1
-        return [...acc, ...minutes.map(min => `${hour}-${min}`)]
-    }, []).sort(() => Math.random() - 0.5)
-    randomizedClockTimes.forEach((time) => {
-        const [hour, min] = time.split('-')
+        const hour = i + 1;
+        return [...acc, ...minutes.map((min) => `${hour}-${min}`)];
+    }, []);
+    randomizedClockTimes
+        .sort(() => Math.random() - 0.5)
+        .forEach((time) => {
+        const [hour, min] = time.split('-');
         const clock = document.createElement('div');
         clock.className = 'clock-wrapper';
         clock.id = `hour-${hour}-minute-${min}`;
-        const hourDegrees = hour * 30 + 90;
-        const minutesDegrees = min * 6 + 90;
+        const hourDegrees = Number(hour) * 30 + 90;
+        const minutesDegrees = Number(min) * 6 + 90;
         clock.innerHTML = `
         <div class="outer-clock-face">
           <div class="marking marking-one"></div>
@@ -39,8 +41,6 @@ const setDate = () => {
     previeusClockTime.setMinutes(now.getMinutes() - 1);
     const previeusClockMin = previeusClockTime.getMinutes();
     const previeusClockHour = (previeusClockTime.getHours() + 24) % 12 || 12;
-    console.log('now: ', `hour-${currentHour}-minute-${currentMin}`);
-    console.log('previeusClockTime: ', `hour-${previeusClockHour}-minute-${previeusClockMin}`);
     const currentClock = document.getElementById(`hour-${currentHour}-minute-${currentMin}`);
     currentClock === null || currentClock === void 0 ? void 0 : currentClock.classList.add('active');
     (_a = document.getElementById(`hour-${previeusClockHour}-minute-${previeusClockMin}`)) === null || _a === void 0 ? void 0 : _a.classList.remove('active');
@@ -58,12 +58,11 @@ setTimeout(() => {
     setInterval(setDate, 60 * 1000);
 }, (60 - sec) * 1000);
 function setSecond() {
-    var _a;
     const now = new Date();
     const seconds = now.getSeconds();
     const secondsDegrees = (seconds / 60) * 360 + 90;
-    const secondsHand = (_a = document.querySelector('.active .second-hand')) === null || _a === void 0 ? void 0 : _a.style;
-    secondsHand.transform = `rotate(${secondsDegrees}deg)`;
+    const secondsHand = document.querySelector('.active .second-hand');
+    secondsHand && (secondsHand.style.transform = `rotate(${secondsDegrees}deg)`);
 }
 setInterval(setSecond, 1000);
 setTimeout(setSecond, 100);
