@@ -1,15 +1,15 @@
 "use strict";
-const clocksWrapper = document.querySelector('#clocks-wrapper');
-const toggleScrollingBtn = document.querySelector('#toggle-scrolling-btn');
-toggleScrollingBtn === null || toggleScrollingBtn === void 0 ? void 0 : toggleScrollingBtn.addEventListener('click', (element) => {
+const clocksWrapper = document.querySelector("#clocks-wrapper");
+const toggleScrollingBtn = document.querySelector("#toggle-scrolling-btn");
+toggleScrollingBtn === null || toggleScrollingBtn === void 0 ? void 0 : toggleScrollingBtn.addEventListener("click", (element) => {
     const body = document.body;
-    if (body.className.includes('scrollable')) {
-        body.classList.remove('scrollable');
-        element.target.innerText = 'Enable scrolling';
+    if (body.className.includes("scrollable")) {
+        body.classList.remove("scrollable");
+        element.target.innerText = "Enable scrolling";
     }
     else {
-        body.classList.add('scrollable');
-        element.target.innerText = 'Disable scrolling';
+        body.classList.add("scrollable");
+        element.target.innerText = "Disable scrolling";
     }
 });
 const generateClocks = () => {
@@ -17,14 +17,14 @@ const generateClocks = () => {
     const randomizedClockTimes = Array.from({ length: 12 }).reduce((acc, _, i) => {
         const hour = i + 1;
         return [...acc, ...minutes.map((min) => `${hour}-${min}`)];
-    }, Array.from({ length: 9 }, () => 'xx-xx'));
+    }, Array.from({ length: 9 }, () => "xx-xx"));
     randomizedClockTimes
         .sort(() => Math.random() - 0.5)
         .forEach((time) => {
-        const [hour, min] = time.split('-');
-        const clock = document.createElement('div');
-        clock.className = 'clock-wrapper';
-        hour !== 'xx' && (clock.id = `hour-${hour}-minute-${min}`);
+        const [hour, min] = time.split("-");
+        const clock = document.createElement("div");
+        clock.className = "clock-wrapper";
+        hour !== "xx" && (clock.id = `hour-${hour}-minute-${min}`);
         const hourDegrees = (Number(hour) / 12) * 360 + (Number(min) / 60) * 30 + 90;
         const minutesDegrees = Number(min) * 6 + 90;
         clock.innerHTML = `
@@ -54,12 +54,13 @@ const setDate = () => {
     const previeusClockMin = previeusClockTime.getMinutes();
     const previeusClockHour = (previeusClockTime.getHours() + 24) % 12 || 12;
     const currentClock = document.getElementById(`hour-${currentHour}-minute-${currentMin}`);
-    currentClock === null || currentClock === void 0 ? void 0 : currentClock.classList.add('active');
-    (_a = document.getElementById(`hour-${previeusClockHour}-minute-${previeusClockMin}`)) === null || _a === void 0 ? void 0 : _a.classList.remove('active');
+    currentClock === null || currentClock === void 0 ? void 0 : currentClock.classList.add("active");
+    (_a = document
+        .getElementById(`hour-${previeusClockHour}-minute-${previeusClockMin}`)) === null || _a === void 0 ? void 0 : _a.classList.remove("active");
     currentClock === null || currentClock === void 0 ? void 0 : currentClock.scrollIntoView({
-        block: 'center',
-        inline: 'center',
-        behavior: 'smooth',
+        block: "center",
+        inline: "center",
+        behavior: "smooth",
     });
 };
 let date = new Date();
@@ -73,11 +74,12 @@ function setSecond() {
     const now = new Date();
     const seconds = now.getSeconds();
     const secondsDegrees = (seconds / 60) * 360 + 90;
-    const secondsHand = document.querySelector('.active .second-hand');
-    secondsHand && (secondsHand.style.transform = `rotate(${secondsDegrees}deg)`);
+    const secondsHand = document.querySelector(".active .second-hand");
+    secondsHand &&
+        (secondsHand.style.transform = `rotate(${secondsDegrees}deg)`);
 }
 setInterval(setSecond, 1000);
 setTimeout(setSecond, 100);
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    document.body.classList.add('scrollable');
+    document.body.classList.add("scrollable");
 }
