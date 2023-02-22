@@ -1,0 +1,17 @@
+{
+  "name": "sams-analog-clocks",
+  "private": true,
+  "version": "1.0.0",
+  "description": "An application that renders all possible times and redirects you to the correct time when it's time to do so",
+  "scripts": {
+    "start": "http-server ./src -p 3001",
+    "dev": "concurrently \"npx tsc --watch\" \"yarn start\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "http-server": "^14.1.1",
+    "typescript": "^4.9.5"
+  },
+  "author": "Sam De Maeyer",
+  "license": "ISC"
+}
