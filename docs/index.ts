@@ -14,7 +14,7 @@ const generateClocks = () => {
       const clock = document.createElement('div');
       clock.className = 'clock-wrapper';
       clock.id = `hour-${hour}-minute-${min}`;
-      const hourDegrees = Number(hour) * 30 + 90;
+      const hourDegrees = (Number(hour) / 12) * 360 + (Number(min) / 60) * 30 + 90;
       const minutesDegrees = Number(min) * 6 + 90;
       clock.innerHTML = `
         <div class="outer-clock-face">
