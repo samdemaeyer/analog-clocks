@@ -18,7 +18,7 @@ const generateClocks = () => {
       const hour = i + 1;
       return [...acc, ...minutes.map((min) => `${hour}-${min}`)];
     },
-    Array.from({ length: 9 }, () => 'xx-xx'),
+    Array.from({ length: 9 }, () => 'xx-xx')
   );
 
   randomizedClockTimes
@@ -87,3 +87,7 @@ function setSecond() {
 
 setInterval(setSecond, 1000);
 setTimeout(setSecond, 100);
+
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  document.body.classList.add('scrollable');
+}
