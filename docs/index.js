@@ -1,7 +1,9 @@
 "use strict";
 var _a;
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const clocksWrapper = document.querySelector("#clocks-wrapper");
 const toggleScrollingBtn = document.querySelector("#toggle-scrolling-btn");
+const body = document.body;
 const centerActiveClock = () => {
     const now = new Date();
     const currentMin = now.getMinutes();
@@ -15,7 +17,6 @@ const centerActiveClock = () => {
     });
 };
 toggleScrollingBtn === null || toggleScrollingBtn === void 0 ? void 0 : toggleScrollingBtn.addEventListener("click", (element) => {
-    const body = document.body;
     if (body.className.includes("scrollable")) {
         body.classList.remove("scrollable");
         element.target.innerText = "Enable scrolling";
@@ -25,8 +26,13 @@ toggleScrollingBtn === null || toggleScrollingBtn === void 0 ? void 0 : toggleSc
         element.target.innerText = "Disable scrolling";
     }
 });
-(_a = document
-    .querySelector("#re-center")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", centerActiveClock);
+(_a = document.querySelector("#re-center")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+    centerActiveClock();
+    if (!isMobile) {
+        body.classList.remove("scrollable");
+        toggleScrollingBtn.innerText = "Enable scrolling";
+    }
+});
 const minutes = Array.from({ length: 60 }, (_, i) => i);
 const randomizedClockTimes = Array.from({ length: 12 }).reduce((acc, _, i) => {
     const hour = i + 1;
@@ -42,18 +48,18 @@ randomizedClockTimes
     const hourDegrees = (Number(hour) / 12) * 360 + (Number(min) / 60) * 30 + 90;
     const minutesDegrees = Number(min) * 6 + 90;
     clock.innerHTML = `
-        <div class="outer-clock-face">
-          <div class="marking marking-one"></div>
-          <div class="marking marking-two"></div>
-          <div class="marking marking-three"></div>
-          <div class="marking marking-four"></div>
-          <div class="inner-clock-face">
-            <div class="hand hour-hand" style="transform: rotate(${hourDegrees}deg)"></div>
-            <div class="hand min-hand" style="transform: rotate(${minutesDegrees}deg)"></div>
-            <div class="hand second-hand"></div>
-          </div>
+      <div class="outer-clock-face">
+        <div class="marking marking-one"></div>
+        <div class="marking marking-two"></div>
+        <div class="marking marking-three"></div>
+        <div class="marking marking-four"></div>
+        <div class="inner-clock-face">
+          <div class="hand hour-hand" style="transform: rotate(${hourDegrees}deg)"></div>
+          <div class="hand min-hand" style="transform: rotate(${minutesDegrees}deg)"></div>
+          <div class="hand second-hand"></div>
         </div>
-      `;
+      </div>
+    `;
     clocksWrapper === null || clocksWrapper === void 0 ? void 0 : clocksWrapper.appendChild(clock);
 });
 const activateClockAndCenter = () => {
@@ -84,7 +90,7 @@ function setSecond() {
 }
 setInterval(setSecond, 1000);
 setTimeout(setSecond, 100);
-if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+if (isMobile) {
     document.body.classList.add("scrollable");
     toggleScrollingBtn === null || toggleScrollingBtn === void 0 ? void 0 : toggleScrollingBtn.remove();
 }
