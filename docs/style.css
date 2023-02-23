@@ -26,17 +26,32 @@ body.scrollable {
 }
 
 .slide-out-panel {
-  border: 3px solid #61afff;
-  position: fixed;
-  top: 10px;
-  right: -140px;
-  border-radius: 6px 0 0 6px;
   background-color: #282828;
-  box-shadow: 7px 0px 13px -2px #61afff;
-  z-index: 500;
+  border-bottom-left-radius: 6px;
+  border: 3px solid #61afff;
   border-right: none;
-  padding: 10px 10px 10px 30px;
+  box-shadow: -2px 0px 20px -7px #61afff;
+  padding: 2rem 1rem 2rem 3rem;
+  position: fixed;
+  right: -170px;
+  top: 10px;
   transition: all 0.3s;
+  z-index: 500;
+}
+
+.slide-out-panel::before {
+  content: "";
+  background-color: #282828;
+  border-radius: 6px 0 0 6px;
+  border: 3px solid #61afff;
+  border-right: none;
+  box-shadow: -25px 0px 30px -10px #61afff;
+  height: 3rem;
+  left: calc(-3rem - 3px);
+  position: absolute;
+  top: -3px;
+  width: 3rem;
+  z-index: 501;
 }
 
 .slide-out-panel:hover {
@@ -46,6 +61,16 @@ body.scrollable {
 
 .slide-out-panel button {
   min-width: 120px;
+  padding: 2px 5px;
+  background: transparent;
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+  color: #ffffff;
+  display: block;
+}
+
+.slide-out-panel button:not(:last-child) {
+  margin-bottom: 1.5rem;
 }
 
 .clock-wrapper {
@@ -54,15 +79,16 @@ body.scrollable {
   position: relative;
   padding: 2rem;
   border: 7px solid #282828;
-  box-shadow: -4px -4px 10px rgba(67, 67, 67, 0.5), inset 4px 4px 10px rgba(0, 0, 0, 0.5),
+  box-shadow: -4px -4px 10px rgba(67, 67, 67, 0.5),
+    inset 4px 4px 10px rgba(0, 0, 0, 0.5),
     inset -4px -4px 10px rgba(67, 67, 67, 0.5), 4px 4px 10px rgba(0, 0, 0, 0.3);
   border-radius: 50%;
   margin: 5rem;
 }
 
 .clock-wrapper.active {
-  box-shadow: -4px -4px 10px #61afff, inset 4px 4px 10px rgba(28, 59, 91, 0.5), inset -4px -4px 10px #61afff,
-    4px 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: -4px -4px 10px #61afff, inset 4px 4px 10px rgba(28, 59, 91, 0.5),
+    inset -4px -4px 10px #61afff, 4px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .outer-clock-face {
@@ -83,7 +109,7 @@ body.scrollable {
 .outer-clock-face::after,
 .outer-clock-face::before,
 .outer-clock-face .marking {
-  content: '';
+  content: "";
   position: absolute;
   width: 5px;
   height: 100%;
@@ -135,7 +161,7 @@ body.scrollable {
 }
 
 .inner-clock-face::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;

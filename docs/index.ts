@@ -1,5 +1,21 @@
 const clocksWrapper = document.querySelector("#clocks-wrapper")
 const toggleScrollingBtn = document.querySelector("#toggle-scrolling-btn")
+
+const centerActiveClock = () => {
+  const now = new Date()
+  const currentMin = now.getMinutes()
+  const currentHour = (now.getHours() + 24) % 12 || 12
+  const currentClock = document.getElementById(
+    `hour-${currentHour}-minute-${currentMin}`
+  )
+  currentClock?.classList.add("active")
+  currentClock?.scrollIntoView({
+    block: "center",
+    inline: "center",
+    behavior: "smooth",
+  })
+}
+
 toggleScrollingBtn?.addEventListener("click", (element) => {
   const body = document.body
   if (body.className.includes("scrollable")) {
@@ -10,28 +26,29 @@ toggleScrollingBtn?.addEventListener("click", (element) => {
     ;(element.target as HTMLElement).innerText = "Disable scrolling"
   }
 })
+document
+  .querySelector("#re-center")
+  ?.addEventListener("click", centerActiveClock)
 
-const generateClocks = () => {
-  const minutes = Array.from({ length: 60 }, (_, i) => i)
-  const randomizedClockTimes = Array.from({ length: 12 }).reduce<string[]>(
-    (acc, _, i) => {
-      const hour = i + 1
-      return [...acc, ...minutes.map((min) => `${hour}-${min}`)]
-    },
-    Array.from({ length: 9 }, () => "xx-xx")
-  )
+const minutes = Array.from({ length: 60 }, (_, i) => i)
+const randomizedClockTimes = Array.from({ length: 12 }).reduce<string[]>(
+  (acc, _, i) => {
+    const hour = i + 1
+    return [...acc, ...minutes.map((min) => `${hour}-${min}`)]
+  },
+  Array.from({ length: 9 }, () => "xx-xx")
+)
 
-  randomizedClockTimes
-    .sort(() => Math.random() - 0.5)
-    .forEach((time) => {
-      const [hour, min] = time.split("-")
-      const clock = document.createElement("div")
-      clock.className = "clock-wrapper"
-      hour !== "xx" && (clock.id = `hour-${hour}-minute-${min}`)
-      const hourDegrees =
-        (Number(hour) / 12) * 360 + (Number(min) / 60) * 30 + 90
-      const minutesDegrees = Number(min) * 6 + 90
-      clock.innerHTML = `
+randomizedClockTimes
+  .sort(() => Math.random() - 0.5)
+  .forEach((time) => {
+    const [hour, min] = time.split("-")
+    const clock = document.createElement("div")
+    clock.className = "clock-wrapper"
+    hour !== "xx" && (clock.id = `hour-${hour}-minute-${min}`)
+    const hourDegrees = (Number(hour) / 12) * 360 + (Number(min) / 60) * 30 + 90
+    const minutesDegrees = Number(min) * 6 + 90
+    clock.innerHTML = `
         <div class="outer-clock-face">
           <div class="marking marking-one"></div>
           <div class="marking marking-two"></div>
@@ -44,41 +61,28 @@ const generateClocks = () => {
           </div>
         </div>
       `
-      clocksWrapper?.appendChild(clock)
-    })
-}
+    clocksWrapper?.appendChild(clock)
+  })
 
-generateClocks()
-
-const setDate = () => {
+const activateClockAndCenter = () => {
   const now = new Date()
   const previeusClockTime = new Date()
-  const currentMin = now.getMinutes()
-  const currentHour = (now.getHours() + 24) % 12 || 12
   previeusClockTime.setMinutes(now.getMinutes() - 1)
   const previeusClockMin = previeusClockTime.getMinutes()
   const previeusClockHour = (previeusClockTime.getHours() + 24) % 12 || 12
-  const currentClock = document.getElementById(
-    `hour-${currentHour}-minute-${currentMin}`
-  )
 
-  currentClock?.classList.add("active")
   document
     .getElementById(`hour-${previeusClockHour}-minute-${previeusClockMin}`)
     ?.classList.remove("active")
-  currentClock?.scrollIntoView({
-    block: "center",
-    inline: "center",
-    behavior: "smooth",
-  })
+  centerActiveClock()
 }
 
 let date = new Date()
 let sec = date.getSeconds()
-setTimeout(setDate, 100)
+setTimeout(activateClockAndCenter, 100)
 setTimeout(() => {
-  setDate()
-  setInterval(setDate, 60 * 1000)
+  activateClockAndCenter()
+  setInterval(activateClockAndCenter, 60 * 1000)
 }, (60 - sec) * 1000)
 
 function setSecond() {
@@ -102,4 +106,5 @@ if (
   )
 ) {
   document.body.classList.add("scrollable")
+  toggleScrollingBtn?.remove()
 }
